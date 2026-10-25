@@ -48,16 +48,9 @@
         .price-badge {
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
         }
-        .custom-shadow {
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
-        }
         @media print {
-            .no-print {
-                display: none !important;
-            }
-            body {
-                background-color: white !important;
-            }
+            .no-print { display: none !important; }
+            body { background-color: white !important; }
         }
     </style>
 </head>
@@ -323,24 +316,286 @@
         const ADMIN_PIN = "1234";
         let isAdmin = false;
 
-        let priceData = JSON.parse(localStorage.getItem('awadly_prices_v2')) || {
-            publishDate: "السبت 2026-10-24",
-            chicks: [
-                { id: "c1", name: "أبيض شركات (تسمين)", price: "30" },
-                { id: "c2", name: "ساسو شيفر (درجة أولى)", price: "21" },
-                { id: "c3", name: "جميزة (لحم)", price: "25" },
-                { id: "c4", name: "هجين عالي (لحم)", price: "20" },
-                { id: "c5", name: "بلدي هجين", price: "12" },
-                { id: "c6", name: "فيومي (برابر)", price: "14" },
-                { id: "c7", name: "فيومي (وشة)", price: "17" },
-                { id: "c8", name: "رزي (ديوك)", price: "21" }
-            ],
-            ducks: [
-                { id: "d1", name: "فرنساوي (يوم)", price: "39" },
-                { id: "d2", name: "بيور ستار (يوم)", price: "43" },
-                { id: "d3", name: "بيور ستار (متحضن)", price: "66" },
-                { id: "d4", name: "بغال (يوم)", price: "52" },
-                { id: "d5", name: "بغال (متحضن)", price: "78" },
-                { id: "d6", name: "مسكوفي (يوم)", price: "47" },
-                { id: "d7", name: "مسكوفي (ذكور يوم)", price: "غير متوفر" },
-                { id: "d8",
+        let priceData;
+        try {
+            priceData = JSON.parse(localStorage.getItem('awadly_prices_v3'));
+        } catch (e) {
+            priceData = null;
+        }
+
+        if (!priceData) {
+            priceData = {
+                publishDate: "السبت 2026-10-24",
+                chicks: [
+                    { id: "c1", name: "أبيض شركات (تسمين)", price: "30" },
+                    { id: "c2", name: "ساسو شيفر (درجة أولى)", price: "21" },
+                    { id: "c3", name: "جميزة (لحم)", price: "25" },
+                    { id: "c4", name: "هجين عالي (لحم)", price: "20" },
+                    { id: "c5", name: "بلدي هجين", price: "12" },
+                    { id: "c6", name: "فيومي (برابر)", price: "14" },
+                    { id: "c7", name: "فيومي (وشة)", price: "17" },
+                    { id: "c8", name: "رزي (ديوك)", price: "21" }
+                ],
+                ducks: [
+                    { id: "d1", name: "فرنساوي (يوم)", price: "39" },
+                    { id: "d2", name: "بيور ستار (يوم)", price: "43" },
+                    { id: "d3", name: "بيور ستار (متحضن)", price: "66" },
+                    { id: "d4", name: "بغال (يوم)", price: "52" },
+                    { id: "d5", name: "بغال (متحضن)", price: "78" },
+                    { id: "d6", name: "مسكوفي (يوم)", price: "47" },
+                    { id: "d7", name: "مسكوفي (ذكور يوم)", price: "غير متوفر" },
+                    { id: "d8", name: "مسكوفي (متحضن)", price: "78" },
+                    { id: "d9", name: "مسكوفي ذكر (متحضن)", price: "غير متوفر" },
+                    { id: "d10", name: "مولار مستورد (بلنشارد)", price: "132" }
+                ],
+                turkey: [
+                    { id: "t1", name: "سمان هجين (متحضن)", price: "17" },
+                    { id: "t2", name: "وز أوروبي", price: "حسب الطلب" },
+                    { id: "t3", name: "رومي أسمر (يوم)", price: "58" },
+                    { id: "t4", name: "رومي أبيض (مهجن)", price: "245" },
+                    { id: "t5", name: "رومي أسمر (كبير)", price: "145" }
+                ],
+                supplies: [
+                    { id: "s1", name: "بيض دوبل", price: "175" },
+                    { id: "s2", name: "ايكوشيلد (الشكارة)", price: "120" }
+                ],
+                companies: [
+                    { id: "co1", name: "روس (الوادي)", price: "متاح" },
+                    { id: "co2", name: "هبرد (الفيروز)", price: "متاح" },
+                    { id: "co3", name: "أفيان (القصبي)", price: "متاح" },
+                    { id: "co4", name: "أربو (القاهرة)", price: "متاح" },
+                    { id: "co5", name: "كب (الوطنية)", price: "متاح" }
+                ]
+            };
+        }
+
+        function renderData() {
+            const dateEl = document.getElementById('publish-date-display');
+            if(dateEl) dateEl.innerText = priceData.publishDate;
+            
+            renderSection('chicks', priceData.chicks);
+            renderSection('ducks', priceData.ducks);
+            renderSection('turkey', priceData.turkey);
+            renderSection('supplies', priceData.supplies);
+            renderSection('companies', priceData.companies);
+        }
+
+        function renderSection(secId, items) {
+            const container = document.getElementById(`grid-${secId}`);
+            if (!container) return;
+            container.innerHTML = '';
+
+            items.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "item-card bg-slate-50 border border-slate-200 rounded-xl p-3 flex items-center justify-between";
+                
+                card.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        ${isAdmin ? `<button onclick="deleteItem('${secId}', '${item.id}')" class="text-rose-500 text-xs"><i class="fa-solid fa-trash"></i></button>` : ''}
+                        <span class="text-xs sm:text-sm font-bold text-slate-800">${item.name}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        ${isAdmin ? 
+                            `<input type="text" value="${item.price}" onchange="updatePrice('${secId}', '${item.id}', this.value)" class="w-16 text-center border rounded font-bold text-xs p-1">` : 
+                            `<span class="price-badge text-white px-3 py-1 rounded-lg text-xs font-black">${item.price} ج.م</span>`
+                        }
+                        <input type="number" min="0" placeholder="كمية" id="qty_${secId}_${item.id}" class="no-print w-14 text-center border border-slate-300 rounded text-xs p-1">
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function requestAdminAccess() {
+            if (isAdmin) {
+                isAdmin = false;
+                const adminBar = document.getElementById('admin-bar');
+                const btnText = document.getElementById('admin-btn-text');
+                if(adminBar) adminBar.classList.add('hidden');
+                if(btnText) btnText.innerText = "وضع التعديل (للإدارة)";
+                renderData();
+            } else {
+                const pinModal = document.getElementById('pin-modal');
+                if(pinModal) pinModal.classList.remove('hidden');
+            }
+        }
+
+        function closePinModal() { 
+            const pinModal = document.getElementById('pin-modal');
+            if(pinModal) pinModal.classList.add('hidden'); 
+        }
+
+        function verifyPin() {
+            const pinInput = document.getElementById('admin-pin-input');
+            const pin = pinInput ? pinInput.value.trim() : "";
+            if (pin === ADMIN_PIN) {
+                isAdmin = true;
+                closePinModal();
+                const adminBar = document.getElementById('admin-bar');
+                const btnText = document.getElementById('admin-btn-text');
+                if(adminBar) adminBar.classList.remove('hidden');
+                if(btnText) btnText.innerText = "قفل التعديل";
+                renderData();
+                showToast("تم الدخول بنجاح!");
+            } else {
+                showToast("كلمة السر خاطئة!");
+            }
+        }
+
+        function updatePrice(secId, itemId, newPrice) {
+            const item = priceData[secId].find(i => i.id === itemId);
+            if (item) {
+                item.price = newPrice;
+                saveToStorage();
+                showToast("تم حفظ السعر الجديد");
+            }
+        }
+
+        function deleteItem(secId, itemId) {
+            priceData[secId] = priceData[secId].filter(i => i.id !== itemId);
+            saveToStorage();
+            renderData();
+            showToast("تم الحذف بنجاح");
+        }
+
+        function saveToStorage() {
+            try {
+                localStorage.setItem('awadly_prices_v3', JSON.stringify(priceData));
+            } catch (e) {}
+        }
+
+        function openAddItemModal() { 
+            const modal = document.getElementById('add-item-modal');
+            if(modal) modal.classList.remove('hidden'); 
+        }
+        function closeAddItemModal() { 
+            const modal = document.getElementById('add-item-modal');
+            if(modal) modal.classList.add('hidden'); 
+        }
+
+        function saveNewItem() {
+            const catEl = document.getElementById('modal-category');
+            const nameEl = document.getElementById('modal-name');
+            const priceEl = document.getElementById('modal-price');
+
+            const cat = catEl ? catEl.value : 'chicks';
+            const name = nameEl ? nameEl.value.trim() : '';
+            const price = priceEl ? priceEl.value.trim() : '';
+
+            if (name && price) {
+                if(!priceData[cat]) priceData[cat] = [];
+                priceData[cat].push({ id: 'item_' + Date.now(), name: name, price: price });
+                saveToStorage();
+                renderData();
+                closeAddItemModal();
+                showToast("تمت الإضافة بنجاح");
+                if(nameEl) nameEl.value = '';
+                if(priceEl) priceEl.value = '';
+            } else {
+                alert("يرجى إدخال اسم الصنف والسعر");
+            }
+        }
+
+        function openEditDateModal() { 
+            const dateInput = document.getElementById('modal-date-input');
+            const modal = document.getElementById('edit-date-modal');
+            if(dateInput) dateInput.value = priceData.publishDate;
+            if(modal) modal.classList.remove('hidden'); 
+        }
+        function closeEditDateModal() { 
+            const modal = document.getElementById('edit-date-modal');
+            if(modal) modal.classList.add('hidden'); 
+        }
+
+        function saveDateChange() {
+            const dInput = document.getElementById('modal-date-input');
+            const d = dInput ? dInput.value.trim() : '';
+            if (d) {
+                priceData.publishDate = d;
+                saveToStorage();
+                renderData();
+                closeEditDateModal();
+                showToast("تم تغيير التاريخ");
+            }
+        }
+
+        function filterItems() {
+            const searchInput = document.getElementById('search-input');
+            const q = searchInput ? searchInput.value.toLowerCase() : '';
+            document.querySelectorAll('.item-card').forEach(card => {
+                card.style.display = card.innerText.toLowerCase().includes(q) ? 'flex' : 'none';
+            });
+        }
+
+        function filterCategory(cat) {
+            document.querySelectorAll('.category-block').forEach(block => {
+                block.style.display = (cat === 'all' || block.getAttribute('data-category') === cat) ? 'block' : 'none';
+            });
+        }
+
+        function sendBookingToWhatsApp() {
+            const nameEl = document.getElementById('clientName');
+            const phoneEl = document.getElementById('clientPhone');
+            const notesEl = document.getElementById('clientNotes');
+
+            const name = nameEl ? nameEl.value.trim() : '';
+            const phone = phoneEl ? phoneEl.value.trim() : '';
+            const notes = notesEl ? notesEl.value.trim() : '';
+
+            if (!name || !phone) {
+                alert("يرجى كتابة الاسم ورقم التليفون أولاً.");
+                return;
+            }
+
+            let orders = [];
+            ['chicks', 'ducks', 'turkey', 'supplies', 'companies'].forEach(sec => {
+                if(priceData[sec]) {
+                    priceData[sec].forEach(item => {
+                        const input = document.getElementById(`qty_${sec}_${item.id}`);
+                        if (input && input.value > 0) {
+                            orders.push(`- ${item.name}: *${input.value}*`);
+                        }
+                    });
+                }
+            });
+
+            if (orders.length === 0) {
+                alert("يرجى كتابة الكمية المطلوبة أمام صنف واحد على الأقل.");
+                return;
+            }
+
+            let msg = `🛒 *طلب حجز جديد من الموقع*\n👤 *الاسم:* ${name}\n📞 *التليفون:* ${phone}\n\n📦 *الطلبات:*\n` + orders.join('\n');
+            if (notes) msg += `\n📝 *ملاحظات:* ${notes}`;
+
+            window.open(`https://wa.me/201019294380?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        function copyFormattedList() {
+            let text = `📋 *أسعار عيادة د. محمد السيد العوادلي البيطرية*\n📅 ${priceData.publishDate}\n\n`;
+            ['chicks', 'ducks', 'turkey', 'supplies'].forEach(sec => {
+                if(priceData[sec]) {
+                    priceData[sec].forEach(i => text += `• ${i.name}: ${i.price} ج.م\n`);
+                }
+            });
+            text += `\n📞 للتواصل: 01019294380`;
+            navigator.clipboard.writeText(text);
+            showToast("تم نسخ القائمة جاهزة للواتساب!");
+        }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            const tMsg = document.getElementById('toast-message');
+            if(t && tMsg) {
+                tMsg.innerText = msg;
+                t.classList.remove('opacity-0');
+                setTimeout(() => t.classList.add('opacity-0'), 2500);
+            }
+        }
+
+        // تشغيل عرض البيانات فور تحميل الصفحة بسلام
+        document.addEventListener('DOMContentLoaded', () => {
+            renderData();
+        });
+    </script>
+</body>
+</html>
