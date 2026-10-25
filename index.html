@@ -148,7 +148,8 @@
                     <button onclick="openEditDateModal()" class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold px-3 py-2 rounded-xl flex items-center gap-1">
                         <i class="fa-solid fa-pen"></i> تغيير التاريخ
                     </button>
-                    <button onclick="openChangePinModal()" class="bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold px-3 py-2 rounded-xl flex items-center gap-1">
+                    <!-- زر تغيير كلمة السر الواضح -->
+                    <button onclick="openChangePinModal()" class="bg-orange-600 hover:bg-orange-700 text-white text-xs font-bold px-3 py-2 rounded-xl flex items-center gap-1 shadow">
                         <i class="fa-solid fa-key"></i> تغيير كلمة السر
                     </button>
                 </div>
@@ -269,12 +270,12 @@
     <!-- Modal: Change Admin PIN -->
     <div id="change-pin-modal" class="hidden fixed inset-0 bg-slate-900/70 backdrop-blur-md z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-center">
-            <h3 class="text-lg font-bold mb-2">تغيير كلمة السر للأدمن</h3>
+            <h3 class="text-lg font-bold mb-2 text-orange-700">تغيير كلمة السر للأدمن</h3>
             <p class="text-xs text-slate-500 mb-4">أدخل كلمة السر الجديدة التي ترغب باستعمالها:</p>
             <input type="password" id="new-pin-input" placeholder="أدخل كلمة السر الجديدة" class="w-full text-center text-lg font-bold py-3 border rounded-xl mb-4">
             <div class="flex gap-2">
                 <button onclick="closeChangePinModal()" class="w-1/2 py-2 bg-slate-100 text-xs font-bold rounded-xl">إلغاء</button>
-                <button onclick="saveNewPin()" class="w-1/2 py-2 bg-amber-600 text-white text-xs font-bold rounded-xl">حفظ كلمة السر</button>
+                <button onclick="saveNewPin()" class="w-1/2 py-2 bg-orange-600 text-white text-xs font-bold rounded-xl">حفظ كلمة السر</button>
             </div>
         </div>
     </div>
