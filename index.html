@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عيادة د. محمد السيد العوادلي البيطرية - أسعار اليوم</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --secondary-color: #198754;
+            --bg-light: #f8f9fa;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            padding-bottom: 40px;
+        }
+        .header-card {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .category-card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .category-header {
+            background-color: #ffffff;
+            border-bottom: 2px solid #e9ecef;
+            padding: 15px 20px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #212529;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .price-badge {
+            background-color: #e7f1ff;
+            color: #0d6efd;
+            font-weight: bold;
+            font-size: 1.1rem;
+            padding: 6px 14px;
+            border-radius: 20px;
+            min-width: 80px;
+            text-align: center;
+        }
+        .edit-input {
+            width: 90px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .btn-custom {
+            border-radius: 25px;
+            padding: 8px 20px;
+            font-weight: bold;
+        }
+        .admin-controls {
+            background: #fff3cd;
+            border: 1px solid #ffe69c;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container my-4">
+    <!-- Header -->
+    <div class="card header-card p-4 text-center mb-4">
+        <h2 class="fw-bold mb-2"><i class="fas fa-user-md me-2"></i>عيادة د. محمد السيد العوادلي البيطرية</h2>
+        <p class="mb-1 fs-6"><i class="fas fa-map-marker-alt me-1"></i> دنجواي - أول طريق الشط - بجوار عيادة الدكتور محمد عبدالسلام</p>
+        <div class="d-flex justify-content-center align-items-center gap-2 mt-2">
+            <span class="badge bg-light text-dark fs-6 p-2"><i class="far fa-calendar-alt me-1"></i> تاريخ الإصدار: <span id="dateDisplay">السبت 2026-10-24</span></span>
+        </div>
+        
+        <div class="mt-3 d-flex justify-content-center gap-2 flex-wrap">
+            <button class="btn btn-warning btn-custom" onclick="toggleEditMode()"><i class="fas fa-lock me-1"></i> <span id="editBtnText">وضع التعديل (للإدارة)</span></button>
+            <button class="btn btn-light text-success btn-custom" onclick="exportToWhatsApp()"><i class="fab fa-whatsapp me-1"></i> نسخ للواتساب / فيسبوك</button>
+        </div>
+    </div>
+
+    <!-- Admin Alert Bar -->
+    <div id="adminNotice" class="admin-controls text-center d-none">
+        <span class="fw-bold text-dark d-block mb-2"><i class="fas fa-edit me-1"></i> أنت الآن في وضع التعديل (خاص بالإدارة). يمكنك تغيير الأسعار ثم الحفظ.</span>
+        <div class="mt-2 d-flex justify-content-center gap-2 flex-wrap">
+            <button class="btn btn-success btn-sm px-4 fw-bold" onclick="saveData()"><i class="fas fa-save me-1"></i> حفظ التغييرات</button>
+            <button class="btn btn-dark btn-sm px-3 fw-bold" data-bs-toggle="modal" data-bs-target="#changePasswordModal"><i class="fas fa-key me-1"></i> تغيير باسورد الأدمن</button>
+            <button class="btn btn-secondary btn-sm px-3" onclick="exitEditMode()">إلغاء</button>
+        </div>
+    </div>
+
+    <!-- Section 1: Chicks -->
+    <div class="card category-card">
+        <div class="category-header text-primary">
+            <span>🐥 1. كتاكيت التسمين والبلدي والبيض</span>
+        </div>
+        <div class="card-body p-0">
+            <ul class="list-group list-group-flush" id="list-chicks"></ul>
+        </div>
+    </div>
+
+    <!-- Section 2: Ducks -->
+    <div class="card category-card">
+        <div class="category-header text-success">
+            <span>🦆 2. البط بأنواعه</span>
+        </div>
+        <div class="card-body p-0">
+            <ul class="list-group list-group-flush" id="list-ducks"></ul>
+        </div>
+    </div>
+
+    <!-- Section 3: Turkeys & Quails -->
+    <div class="card category-card">
+        <div class="category-header text-danger">
+            <span>🦃 3. الرومي والسمان والطيور الأخرى</span>
+        </div>
+        <div class="card-body p-0">
+            <ul class="list-group list-group-flush" id="list-turkey"></ul>
+        </div>
+    </div>
+
+    <!-- Section 4: Eggs & Supplies -->
+    <div class="card category-card">
+        <div class="category-header text-warning text-dark">
+            <span>🥚 4. البيض والمستلزمات البيطرية</span>
+        </div>
+        <div class="card-body p-0">
+            <ul class="list-group list-group-flush" id="list-supplies"></ul>
+        </div>
+    </div>
+
+    <!-- Section 5: Available Companies -->
+    <div class="card category-card">
+        <div class="category-header text-info text-dark">
+            <span>🧬 الشركات المتاحة للأبيض اليوم</span>
+        </div>
+        <div class="card-body p-3" id="list-companies"></div>
+    </div>
+
+    <!-- Section 6: Clinic Services & Contact -->
+    <div class="card category-card bg-white p-4">
+        <h5 class="fw-bold text-secondary mb-3"><i class="fas fa-tools me-2"></i>خدمات ومستلزمات المزارع المتوفرة:</h5>
+        <ul class="mb-3">
+            <li>أدوية بيطرية متكاملة</li>
+            <li>سقايات وعلافات لجميع الأعمار</li>
+            <li>مستلزمات وأدوات مزارع ومكاتب بيطرية</li>
+        </ul>
+        <div class="alert alert-info fw-bold text-center mb-3">
+            💡 ملاحظة: أسعار خاصة للكميات والمزارع.
+        </div>
+        <div class="text-center">
+            <h6 class="fw-bold mb-2">للتواصل والحجز:</h6>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="tel:01019294380" class="btn btn-outline-primary fw-bold"><i class="fas fa-phone-alt me-1"></i> 01019294380</a>
+                <a href="tel:01515382820" class="btn btn-outline-success fw-bold"><i class="fas fa-phone-alt me-1"></i> 01515382820</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Password Modal (Login) -->
+<div class="modal fade" id="passwordModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-header-title fw-bold">إدخال كلمة السر للإدارة</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <p>يرجى إدخال كلمة السر لتفعيل وضع التعديل:</p>
+                <input type="password" id="pinInput" class="form-control text-center fs-4 mb-3" placeholder="****" maxlength="20">
+                <div id="pinError" class="text-danger d-none mb-2">كلمة السر خاطئة! حاول مرة أخرى.</div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-primary px-4 fw-bold" onclick="verifyPin()">دخول</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Change Password Modal -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title fw-bold">تغيير باسورد الأدمن</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label fw-bold">كلمة السر الجديدة:</label>
+                    <input type="password" id="newPin" class="form-control" placeholder="أدخل الباسورد الجديد">
+                </div>
+                <div id="changePinMsg" class="text-center fw-bold d-none"></div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-success px-4 fw-bold" onclick="updateAdminPin()">حفظ الباسورد الجديد</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    let currentAdminPin = localStorage.getItem('awadly_admin_pin') || "1234";
+    let isEditMode = false;
+
+    const initialData = {
+        date: "السبت 2026-10-24",
+        chicks: [
+            { name: "أبيض شركات (تسمين)", price: "30" },
+            { name: "ساسو شيفر (درجة أولى)", price: "21" },
+            { name: "جميزة (لحم)", price: "25" },
+            { name: "هجين عالي (لحم)", price: "20" },
+            { name: "بلدي هجين", price: "12" },
+            { name: "فيومي (برابر)", price: "14" },
+            { name: "فيومي (وشة)", price: "17" },
+            { name: "رزي (ديوك)", price: "21" }
+        ],
+        ducks: [
+            { name: "فرنساوي (يوم)", price: "39" },
+            { name: "بيور ستار (يوم)", price: "43" },
+            { name: "بيور ستار (متحضن)", price: "66" },
+            { name: "بغال (يوم)", price: "52" },
+            { name: "بغال (متحضن)", price: "78" },
+            { name: "مسكوفي (يوم)", price: "47" },
+            { name: "مسكوفي (ذكور يوم)", price: "........" },
+            { name: "مسكوفي (متحضن)", price: "78" },
+            { name: "مسكوفي ذكر (متحضن)", price: "........" },
+            { name: "مولار مستورد (بلنشارد)", price: "132" }
+        ],
+        turkey: [
+            { name: "سمان هجين (متحضن)", price: "17" },
+            { name: "وز أوروبي", price: "....." },
+            { name: "رومي أسمر (يوم)", price: "58" },
+            { name: "رومي أبيض (مهجن)", price: "245" },
+            { name: "رومي أسمر (كبير)", price: "145" }
+        ],
+        supplies: [
+            { name: "بيض دوبل", price: "175" },
+            { name: "ايكوشيلد (الشكارة)", price: "120" }
+        ],
+        companies: [
+            "روس (الوادي)", "هبرد (الفيروز)", "أفيان (القصبي)",
+            "أربو (القاهرة - عربية الشركة)", "كب (الوطنية - عربية الشركة)", "أفيان (الفيروز)"
+        ]
+    };
+
+    let appData = JSON.parse(localStorage.getItem('awadly_prices')) || initialData;
+
+    function renderData() {
+        document.getElementById('dateDisplay').innerText = appData.date;
+        renderSection('chicks', appData.chicks);
+        renderSection('ducks', appData.ducks);
+        renderSection('turkey', appData.turkey);
+        renderSection('supplies', appData.supplies);
+        
+        const compContainer = document.getElementById('list-companies');
+        compContainer.innerHTML = appData.companies.map(c => `<span class="badge bg-secondary p-2 me-2 mb-2 fs-6">${c}</span>`).join('');
+    }
+
+    function renderSection(sectionId, items) {
+        const container = document.getElementById(`list-${sectionId}`);
+        container.innerHTML = items.map((item, index) => `
+            <li class="list-group-item d-flex justify-content-between align-items-center py-3">
+                <span class="fw-bold">${item.name}</span>
+                ${isEditMode ? 
+                    `<input type="text" class="form-control edit-input" value="${item.price}" onchange="updateItemPrice('${sectionId}', ${index}, this.value)">` :
+                    `<span class="price-badge">${item.price} ج.م</span>`
+                }
+            </li>
+        `).join('');
+    }
+
+    function toggleEditMode() {
+        if (!isEditMode) {
+            const modal = new bootstrap.Modal(document.getElementById('passwordModal'));
+            modal.show();
+        } else {
+            exitEditMode();
+        }
+    }
+
+    function verifyPin() {
+        const pin = document.getElementById('pinInput').value;
+        if (pin === currentAdminPin) {
+            isEditMode = true;
+            document.getElementById('adminNotice').classList.remove('d-none');
+            document.getElementById('editBtnText').innerText = "خروج من وضع التعديل";
+            bootstrap.Modal.getInstance(document.getElementById('passwordModal')).hide();
+            document.getElementById('pinInput').value = '';
+            document.getElementById('pinError').classList.add('d-none');
+            renderData();
+        } else {
+            document.getElementById('pinError').classList.remove('d-none');
+        }
+    }
+
+    function updateAdminPin() {
+        const newInput = document.getElementById('newPin').value;
+        const msgDiv = document.getElementById('changePinMsg');
+
+        if (newInput.trim() !== "") {
+            currentAdminPin = newInput;
+            localStorage.setItem('awadly_admin_pin', currentAdminPin);
+            msgDiv.className = "text-center fw-bold text-success mb-2";
+            msgDiv.innerText = "تم تغيير كلمة السر بنجاح!";
+            setTimeout(() => {
+                bootstrap.Modal.getInstance(document.getElementById('changePasswordModal')).hide();
+                document.getElementById('newPin').value = '';
+                msgDiv.classList.add('d-none');
+            }, 1500);
+        } else {
+            msgDiv.className = "text-center fw-bold text-danger mb-2";
+            msgDiv.innerText = "يرجى كتابة كلمة السر الجديدة!";
+            msgDiv.classList.remove('d-none');
+        }
+    }
+
+    function exitEditMode() {
+        isEditMode = false;
+        document.getElementById('adminNotice').classList.add('d-none');
+        document.getElementById('editBtnText').innerText = "وضع التعديل (للإدارة)";
+        renderData();
+    }
+
+    function updateItemPrice(section, index, val) {
+        appData[section][index].price = val;
+    }
+
+    function saveData() {
+        localStorage.setItem('awadly_prices', JSON.stringify(appData));
+        alert("تم حفظ الأسعار الجديدة بنجاح!");
+        exitEditMode();
+    }
+
+    function exportToWhatsApp() {
+        let text = `📋 *بيان أسعار عيادة د. محمد السيد العوادلي البيطرية*\n📍 دنجواي - أول طريق الشط\n📅 ${appData.date}\n\n`;
+        
+        text += `🐤 *كتاكيت التسمين والبلدي والبيض:*\n`;
+        appData.chicks.forEach(i => text += `• ${i.name}: [ ${i.price} ] ج.م\n`);
+        
+        text += `\n🦆 *البط بأنواعه:*\n`;
+        appData.ducks.forEach(i => text += `• ${i.name}: [ ${i.price} ] ج.م\n`);
+        
+        text += `\n🦃 *الرومي والسمان والطيور:*\n`;
+        appData.turkey.forEach(i => text += `• ${i.name}: [ ${i.price} ] ج.م\n`);
+
+        text += `\n📞 للتواصل والحجز: 01019294380 / 01515382820`;
+
+        navigator.clipboard.writeText(text);
+        alert("تم نسخ قائمة الأسعار بنجاح! يمكنك لصقها مباشرة في الواتساب أو الفيسبوك.");
+    }
+
+    renderData();
+</script>
+</body>
+</html>
