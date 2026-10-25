@@ -257,11 +257,11 @@
     <div id="pin-modal" class="hidden fixed inset-0 bg-slate-900/70 backdrop-blur-md z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-center">
             <h3 class="text-lg font-bold mb-2">دخول لوحة التحكم</h3>
-            <p class="text-xs text-slate-500 mb-4">أدخل كلمة السر لتفعيل وضع التعديل</p>
+            <p class="text-xs text-slate-500 mb-4">أدخل كلمة السر للتحقق والدخول</p>
             <input type="password" id="admin-pin-input" placeholder="••••" class="w-full text-center text-2xl tracking-widest font-bold py-3 border rounded-xl mb-4">
             <div class="flex gap-2">
                 <button onclick="closePinModal()" class="w-1/2 py-2 bg-slate-100 text-xs font-bold rounded-xl">إلغاء</button>
-                <button onclick="verifyPin()" class="w-1/2 py-2 bg-farm-600 text-white text-xs font-bold rounded-xl">تأكيد</button>
+                <button onclick="verifyPin()" class="w-1/2 py-2 bg-farm-600 text-white text-xs font-bold rounded-xl">تحقق ودخول</button>
             </div>
         </div>
     </div>
@@ -270,11 +270,11 @@
     <div id="change-pin-modal" class="hidden fixed inset-0 bg-slate-900/70 backdrop-blur-md z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-center">
             <h3 class="text-lg font-bold mb-2 text-orange-700">تغيير كلمة السر للأدمن</h3>
-            <p class="text-xs text-slate-500 mb-4">أدخل كلمة السر الجديدة التي ترغب باستعمالها:</p>
+            <p class="text-xs text-slate-500 mb-4">أدخل كلمة السر الجديدة (سيتم حفظها في شيت جوجل):</p>
             <input type="password" id="new-pin-input" placeholder="أدخل كلمة السر الجديدة" class="w-full text-center text-lg font-bold py-3 border rounded-xl mb-4">
             <div class="flex gap-2">
                 <button onclick="closeChangePinModal()" class="w-1/2 py-2 bg-slate-100 text-xs font-bold rounded-xl">إلغاء</button>
-                <button onclick="saveNewPin()" class="w-1/2 py-2 bg-orange-600 text-white text-xs font-bold rounded-xl">حفظ كلمة السر</button>
+                <button onclick="saveNewPin()" class="w-1/2 py-2 bg-orange-600 text-white text-xs font-bold rounded-xl">حفظ في الشيت</button>
             </div>
         </div>
     </div>
@@ -329,9 +329,8 @@
 
     <!-- JS Code -->
     <script>
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwbAPeiF8UB4ZN1c9r1qzl_vYWT9t9scX0i0kfTlf8E9Lw-smJuFZf7KG4oLTDlD_-APg/exec";
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw5b-jtsWWV8zOCnIZVxflayAfDLeiF_omDztWH5skqMBrFn0uR4NW_tEA8jQsgnSO3LA/exec";
 
-        let currentAdminPin = "1234";
         let isAdmin = false;
 
         let defaultData = {
@@ -382,13 +381,18 @@
         let priceData = defaultData;
 
         async function loadDataFromCloud() {
-            showToast("جاري تحميل أحدث الأسعار...");
+            showToast("جاري جلب أحدث البيانات من شيت جوجل...");
             try {
                 let res = await fetch(GOOGLE_SCRIPT_URL);
-                let data = await res.json();
-                if(data && data.publishData) {
-                    priceData = data;
-                    if(data.adminPin) currentAdminPin = data.adminPin;
+                let textData = await res.text();
+                if(textData && textData.trim() !== "" && textData.trim() !== "{}") {
+                    let data = JSON.parse(textData);
+                    if(data && data.chicks) {
+                        priceData = data;
+                        if(!priceData.adminPin) priceData.adminPin = "1234";
+                    }
+                } else {
+                    await saveDataToCloud();
                 }
             } catch(e) {
                 console.log("استخدام البيانات الافتراضية");
@@ -397,7 +401,7 @@
         }
 
         async function saveDataToCloud() {
-            showToast("جاري حفظ التعديلات للجميع...");
+            showToast("جاري حفظ التعديلات في شيت جوجل...");
             try {
                 await fetch(GOOGLE_SCRIPT_URL, {
                     method: "POST",
@@ -405,9 +409,9 @@
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(priceData)
                 });
-                showToast("تم حفظ وتحديث الأسعار للجميع بنجاح! 🎉");
+                showToast("تم الحفظ في الشيت وتحديث الموقع بنجاح! 🎉");
             } catch(e) {
-                showToast("حدث خطأ أثناء الحفظ على السيرفر");
+                showToast("حدث خطأ أثناء الحفظ");
             }
         }
 
@@ -467,10 +471,13 @@
             if(pinModal) pinModal.classList.add('hidden'); 
         }
 
+        // تحقق من كلمة السر المطابقة لما هو مخزن في جوجل شيت
         function verifyPin() {
             const pinInput = document.getElementById('admin-pin-input');
-            const pin = pinInput ? pinInput.value.trim() : "";
-            if (pin === currentAdminPin) {
+            const enteredPin = pinInput ? pinInput.value.trim() : "";
+            const correctPin = priceData.adminPin || "1234";
+
+            if (enteredPin === correctPin) {
                 isAdmin = true;
                 closePinModal();
                 const adminBar = document.getElementById('admin-bar');
@@ -478,9 +485,10 @@
                 if(adminBar) adminBar.classList.remove('hidden');
                 if(btnText) btnText.innerText = "قفل التعديل";
                 renderData();
-                showToast("تم الدخول بنجاح!");
+                showToast("تم التحقق والدخول بنجاح من الشيت!");
+                if(pinInput) pinInput.value = '';
             } else {
-                showToast("كلمة السر خاطئة!");
+                showToast("كلمة السر غير صحيحة!");
             }
         }
 
@@ -494,15 +502,16 @@
             if(modal) modal.classList.add('hidden');
         }
 
+        // تغيير كلمة السر وحفظها مباشرة في شيت جوجل للجميع
         function saveNewPin() {
             const input = document.getElementById('new-pin-input');
             const newPin = input ? input.value.trim() : "";
             if (newPin !== "") {
-                currentAdminPin = newPin;
-                priceData.adminPin = currentAdminPin;
+                priceData.adminPin = newPin;
                 saveDataToCloud();
                 closeChangePinModal();
                 if(input) input.value = '';
+                showToast("تم تغيير كلمة السر وحفظها في الشيت بنجاح!");
             } else {
                 alert("يرجى كتابة كلمة السر الجديدة!");
             }
