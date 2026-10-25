@@ -48,9 +48,6 @@
         .price-badge {
             background: linear-gradient(135deg, #10b981 0%, #059669 100%);
         }
-        .gold-badge {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-        }
         .custom-shadow {
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
         }
@@ -61,24 +58,16 @@
             body {
                 background-color: white !important;
             }
-            .print-card {
-                box-shadow: none !important;
-                border: 1px solid #e2e8f0 !important;
-            }
         }
     </style>
 </head>
 <body class="text-slate-800 pb-24 antialiased min-h-screen">
 
-    <!-- Top Navigation / Header Banner -->
+    <!-- Header Banner -->
     <header class="bg-gradient-to-r from-farm-900 via-farm-800 to-emerald-900 text-white shadow-xl relative overflow-hidden">
-        <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white/5 rounded-full blur-2xl pointer-events-none"></div>
-        <div class="absolute -left-10 -top-10 w-40 h-40 bg-amberGold-500/10 rounded-full blur-2xl pointer-events-none"></div>
-
         <div class="max-w-6xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 
-                <!-- Clinic Title & Info -->
                 <div class="flex items-center gap-4">
                     <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-amberGold-500 to-amber-300 flex items-center justify-center text-farm-900 shadow-lg text-2xl font-black shrink-0">
                         🩺
@@ -86,10 +75,6 @@
                     <div>
                         <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-2">
                             عيادة د. محمد السيد العوادلي البيطرية
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse ml-1.5"></span>
-                                البورصة اليومية
-                            </span>
                         </h1>
                         <p class="text-emerald-100/90 text-sm mt-1 flex items-center gap-1">
                             <i class="fa-solid fa-location-dot text-amberGold-400"></i>
@@ -98,17 +83,16 @@
                     </div>
                 </div>
 
-                <!-- Live Date & Quick Actions -->
                 <div class="flex flex-wrap items-center gap-3">
                     <div class="bg-white/10 backdrop-blur-md rounded-xl px-4 py-2 border border-white/15 text-xs text-emerald-50 flex items-center gap-2">
                         <i class="fa-regular fa-calendar-days text-amberGold-400 text-base"></i>
                         <div>
-                            <div class="text-white/70 text-[10px]">تاريخ النشر والحديث</div>
-                            <div id="publish-date-display" class="font-bold text-sm text-white">السبت 2024-10-24</div>
+                            <div class="text-white/70 text-[10px]">تاريخ النشر</div>
+                            <div id="publish-date-display" class="font-bold text-sm text-white">السبت 2026-10-24</div>
                         </div>
                     </div>
 
-                    <button onclick="requestAdminAccess()" id="admin-toggle-btn" class="no-print bg-amberGold-500 hover:bg-amberGold-600 text-farm-900 font-bold px-4 py-2 rounded-xl text-xs sm:text-sm transition-all duration-200 shadow-lg flex items-center gap-1.5">
+                    <button onclick="requestAdminAccess()" id="admin-toggle-btn" class="no-print bg-amberGold-500 hover:bg-amberGold-600 text-farm-900 font-bold px-4 py-2 rounded-xl text-xs sm:text-sm transition-all shadow-lg flex items-center gap-1.5">
                         <i class="fa-solid fa-lock text-xs" id="admin-icon"></i>
                         <span id="admin-btn-text">وضع التعديل (للإدارة)</span>
                     </button>
@@ -118,215 +102,182 @@
         </div>
     </header>
 
-    <!-- Main Container -->
+    <!-- Main Content -->
     <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
 
-        <!-- Announcement Banner / Offers -->
-        <div class="bg-gradient-to-r from-amber-500/10 via-amber-400/5 to-transparent border-r-4 border-amberGold-500 bg-white rounded-xl p-4 shadow-sm mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <!-- Top Announcement Bar -->
+        <div class="bg-white border-r-4 border-amberGold-500 rounded-xl p-4 shadow-sm mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div class="flex items-center gap-3">
-                <span class="text-2xl animate-bounce">💡</span>
+                <span class="text-2xl">💡</span>
                 <div>
                     <h3 class="text-sm font-bold text-slate-800">ملاحظة هامة للمزارع والتجار</h3>
-                    <p class="text-xs text-slate-600 mt-0.5">تتوفر لدينا أسعار خاصة ومميزة للكميات الكبيرة والمزارع مع إمكانية التوصيل والمتابعة البيطرية.</p>
+                    <p class="text-xs text-slate-600 mt-0.5">تتوفر أسعار خاصة ومميزة للكميات الكبيرة والمزارع مع إمكانية التوصيل والمتابعة البيطرية.</p>
                 </div>
             </div>
-            <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
-                <button onclick="window.print()" class="no-print bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition">
-                    <i class="fa-solid fa-print"></i> طباعة القائمة
+            <div class="flex items-center gap-2 w-full sm:w-auto justify-end no-print">
+                <button onclick="window.print()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5">
+                    <i class="fa-solid fa-print"></i> طباعة
                 </button>
-                <button onclick="copyFormattedList()" class="no-print bg-farm-600 hover:bg-farm-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition shadow">
+                <button onclick="copyFormattedList()" class="bg-farm-600 hover:bg-farm-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 shadow">
                     <i class="fa-regular fa-copy"></i> نسخ للواتساب/الفيس
                 </button>
             </div>
         </div>
 
-        <!-- Search & Filter Control Bar -->
+        <!-- Search & Category Filters -->
         <div class="no-print bg-white rounded-2xl p-4 shadow-sm border border-slate-100 mb-8 flex flex-col md:flex-row gap-4 items-center justify-between">
-            <!-- Search Bar -->
             <div class="relative w-full md:w-96">
                 <i class="fa-solid fa-magnifying-glass absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-                <input type="text" id="search-input" onkeyup="filterItems()" placeholder="ابحث عن الصنف (مثلاً: أبيض، مسكوفي، روس، ساسو)..." class="w-full pr-10 pl-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-farm-500 focus:bg-white transition">
+                <input type="text" id="search-input" onkeyup="filterItems()" placeholder="ابحث عن الصنف (مثل: أبيض، ساسو، بيور)..." class="w-full pr-10 pl-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-farm-500">
             </div>
 
-            <!-- Quick Filter Tabs -->
-            <div class="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 scrollbar-none text-xs font-bold">
-                <button onclick="filterCategory('all')" class="cat-filter-btn px-3.5 py-2 rounded-xl bg-farm-700 text-white shadow-sm shrink-0 transition" data-cat="all">الكل</button>
-                <button onclick="filterCategory('chicks')" class="cat-filter-btn px-3.5 py-2 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 shrink-0 transition" data-cat="chicks">🐤 كتاكيت</button>
-                <button onclick="filterCategory('ducks')" class="cat-filter-btn px-3.5 py-2 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 shrink-0 transition" data-cat="ducks">🦆 بط</button>
-                <button onclick="filterCategory('turkey')" class="cat-filter-btn px-3.5 py-2 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 shrink-0 transition" data-cat="turkey">🦃 رومي وسمان</button>
-                <button onclick="filterCategory('supplies')" class="cat-filter-btn px-3.5 py-2 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 shrink-0 transition" data-cat="supplies">🥚 بيض ومستلزمات</button>
-                <button onclick="filterCategory('companies')" class="cat-filter-btn px-3.5 py-2 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 shrink-0 transition" data-cat="companies">🔬 الشركات</button>
+            <div class="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 text-xs font-bold">
+                <button onclick="filterCategory('all')" class="cat-filter-btn px-3.5 py-2 rounded-xl bg-farm-700 text-white shrink-0" data-cat="all">الكل</button>
+                <button onclick="filterCategory('chicks')" class="cat-filter-btn px-3.5 py-2 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 shrink-0" data-cat="chicks">🐤 كتاكيت</button>
+                <button onclick="filterCategory('ducks')" class="cat-filter-btn px-3.5 py-2 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 shrink-0" data-cat="ducks">🦆 بط</button>
+                <button onclick="filterCategory('turkey')" class="cat-filter-btn px-3.5 py-2 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 shrink-0" data-cat="turkey">🦃 رومي وسمان</button>
+                <button onclick="filterCategory('supplies')" class="cat-filter-btn px-3.5 py-2 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 shrink-0" data-cat="supplies">🥚 بيض ومستلزمات</button>
+                <button onclick="filterCategory('companies')" class="cat-filter-btn px-3.5 py-2 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 shrink-0" data-cat="companies">🔬 الشركات</button>
             </div>
         </div>
 
-        <!-- Admin Control Toolbar (Visible in Admin Mode) -->
+        <!-- Admin Controls Bar -->
         <div id="admin-bar" class="hidden no-print bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-8">
-            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                <div class="flex items-center gap-2 text-amber-800 text-sm font-bold">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div class="text-amber-800 text-sm font-bold flex items-center gap-2">
                     <i class="fa-solid fa-user-gear text-amber-600"></i>
-                    <span>وضع التعديل المباشر مفعّل: يمكنك تعديل الأسعار، تغيير تاريخ الإصدار، أو إضافة صنف جديد.</span>
+                    <span>وضع التعديل مفعّل: يمكنك إضافة أصناف، تغيير الأسعار، أو تعديل التاريخ.</span>
                 </div>
                 <div class="flex items-center gap-2">
-                    <button onclick="openAddItemModal()" class="bg-farm-600 hover:bg-farm-700 text-white text-xs font-bold px-3 py-2 rounded-xl transition flex items-center gap-1">
+                    <button onclick="openAddItemModal()" class="bg-farm-600 hover:bg-farm-700 text-white text-xs font-bold px-3 py-2 rounded-xl flex items-center gap-1">
                         <i class="fa-solid fa-plus"></i> إضافة صنف جديد
                     </button>
-                    <button onclick="openEditDateModal()" class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold px-3 py-2 rounded-xl transition flex items-center gap-1">
+                    <button onclick="openEditDateModal()" class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold px-3 py-2 rounded-xl flex items-center gap-1">
                         <i class="fa-solid fa-pen"></i> تغيير التاريخ
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Price Sections Container -->
+        <!-- Categories Sections -->
         <div id="price-sections" class="space-y-8">
-
-            <!-- 1. Chicks Section -->
-            <section class="section-card category-block" data-category="chicks">
-                <div class="flex items-center justify-between bg-white px-5 py-4 rounded-t-2xl border-b border-slate-100 shadow-sm">
-                    <h2 class="text-lg font-black text-slate-800 flex items-center gap-2.5">
-                        <span class="text-2xl">🐤</span> 1. كتاكيت التسمين والبلدي والبيض
-                    </h2>
-                    <span class="text-xs bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-lg font-bold border border-emerald-200/50">أسعار اليوم</span>
+            <!-- 1. Chicks -->
+            <section class="category-block" data-category="chicks">
+                <div class="bg-white px-5 py-4 rounded-t-2xl border-b border-slate-100 font-black text-slate-800 flex justify-between items-center">
+                    <span>🐤 1. كتاكيت التسمين والبلدي والبيض</span>
                 </div>
-                <div class="bg-white rounded-b-2xl p-4 shadow-sm custom-shadow border border-slate-100">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" id="grid-chicks">
-                        <!-- Dynamic items inserted via JS -->
-                    </div>
+                <div class="bg-white rounded-b-2xl p-4 shadow-sm border border-slate-100">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" id="grid-chicks"></div>
                 </div>
             </section>
 
-            <!-- 2. Ducks Section -->
-            <section class="section-card category-block" data-category="ducks">
-                <div class="flex items-center justify-between bg-white px-5 py-4 rounded-t-2xl border-b border-slate-100 shadow-sm">
-                    <h2 class="text-lg font-black text-slate-800 flex items-center gap-2.5">
-                        <span class="text-2xl">🦆</span> 2. البط بأنواعه
-                    </h2>
-                    <span class="text-xs bg-blue-50 text-blue-700 px-2.5 py-1 rounded-lg font-bold border border-blue-200/50">أفضل السلالات</span>
+            <!-- 2. Ducks -->
+            <section class="category-block" data-category="ducks">
+                <div class="bg-white px-5 py-4 rounded-t-2xl border-b border-slate-100 font-black text-slate-800">
+                    <span>🦆 2. البط بأنواعه</span>
                 </div>
-                <div class="bg-white rounded-b-2xl p-4 shadow-sm custom-shadow border border-slate-100">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" id="grid-ducks">
-                        <!-- Dynamic items inserted via JS -->
-                    </div>
+                <div class="bg-white rounded-b-2xl p-4 shadow-sm border border-slate-100">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" id="grid-ducks"></div>
                 </div>
             </section>
 
-            <!-- 3. Turkey & Quail Section -->
-            <section class="section-card category-block" data-category="turkey">
-                <div class="flex items-center justify-between bg-white px-5 py-4 rounded-t-2xl border-b border-slate-100 shadow-sm">
-                    <h2 class="text-lg font-black text-slate-800 flex items-center gap-2.5">
-                        <span class="text-2xl">🦃</span> 3. الرومي والسمان والطيور الأخرى
-                    </h2>
-                    <span class="text-xs bg-amber-50 text-amber-700 px-2.5 py-1 rounded-lg font-bold border border-amber-200/50">متوفر الآن</span>
+            <!-- 3. Turkeys & Quail -->
+            <section class="category-block" data-category="turkey">
+                <div class="bg-white px-5 py-4 rounded-t-2xl border-b border-slate-100 font-black text-slate-800">
+                    <span>🦃 3. الرومي والسمان والطيور الأخرى</span>
                 </div>
-                <div class="bg-white rounded-b-2xl p-4 shadow-sm custom-shadow border border-slate-100">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" id="grid-turkey">
-                        <!-- Dynamic items inserted via JS -->
-                    </div>
+                <div class="bg-white rounded-b-2xl p-4 shadow-sm border border-slate-100">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" id="grid-turkey"></div>
                 </div>
             </section>
 
-            <!-- 4. Eggs & Veterinary Supplies Section -->
-            <section class="section-card category-block" data-category="supplies">
-                <div class="flex items-center justify-between bg-white px-5 py-4 rounded-t-2xl border-b border-slate-100 shadow-sm">
-                    <h2 class="text-lg font-black text-slate-800 flex items-center gap-2.5">
-                        <span class="text-2xl">🥚</span> 4. البيض والمستلزمات البيطرية
-                    </h2>
-                    <span class="text-xs bg-slate-100 text-slate-700 px-2.5 py-1 rounded-lg font-bold">مكملات ومستلزمات</span>
+            <!-- 4. Eggs & Supplies -->
+            <section class="category-block" data-category="supplies">
+                <div class="bg-white px-5 py-4 rounded-t-2xl border-b border-slate-100 font-black text-slate-800">
+                    <span>🥚 4. البيض والمستلزمات البيطرية</span>
                 </div>
-                <div class="bg-white rounded-b-2xl p-4 shadow-sm custom-shadow border border-slate-100">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" id="grid-supplies">
-                        <!-- Dynamic items inserted via JS -->
-                    </div>
+                <div class="bg-white rounded-b-2xl p-4 shadow-sm border border-slate-100">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" id="grid-supplies"></div>
                 </div>
             </section>
 
-            <!-- 5. Available Companies for White Broilers -->
-            <section class="section-card category-block" data-category="companies">
-                <div class="flex items-center justify-between bg-white px-5 py-4 rounded-t-2xl border-b border-slate-100 shadow-sm">
-                    <h2 class="text-lg font-black text-slate-800 flex items-center gap-2.5">
-                        <span class="text-2xl">🔬</span> الشركات المتاحة للأبيض اليوم
-                    </h2>
-                    <span class="text-xs bg-purple-50 text-purple-700 px-2.5 py-1 rounded-lg font-bold border border-purple-200/50">شركات معتمدة</span>
+            <!-- 5. Companies -->
+            <section class="category-block" data-category="companies">
+                <div class="bg-white px-5 py-4 rounded-t-2xl border-b border-slate-100 font-black text-slate-800">
+                    <span>🔬 الشركات المتاحة للأبيض اليوم</span>
                 </div>
-                <div class="bg-white rounded-b-2xl p-5 shadow-sm custom-shadow border border-slate-100">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3" id="grid-companies">
-                        <!-- Dynamic companies inserted via JS -->
-                    </div>
+                <div class="bg-white rounded-b-2xl p-4 shadow-sm border border-slate-100">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3" id="grid-companies"></div>
                 </div>
             </section>
+        </div>
 
-            <!-- 6. Farm Services & Equipment -->
-            <section class="section-card category-block" data-category="supplies">
-                <div class="flex items-center justify-between bg-white px-5 py-4 rounded-t-2xl border-b border-slate-100 shadow-sm">
-                    <h2 class="text-lg font-black text-slate-800 flex items-center gap-2.5">
-                        <span class="text-2xl">🛠️</span> خدمات ومستلزمات المزارع المتوفرة
-                    </h2>
+        <!-- Booking & Order Section for Customers -->
+        <div class="no-print bg-white rounded-2xl p-6 shadow-sm border border-slate-100 mt-8">
+            <h3 class="text-lg font-black text-farm-700 mb-2 flex items-center gap-2">
+                <i class="fa-solid fa-cart-shopping"></i> حجز وطلب كمية للزبائن
+            </h3>
+            <p class="text-xs text-slate-500 mb-4">اكتب الكمية المطلوبة أمام أي صنف في الأعلى، ثم املأ بياناتك واضغط إرسال للحجز عبر الواتساب فورا.</p>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label class="block text-xs font-bold mb-1">اسم العميل / المزرعة:</label>
+                    <input type="text" id="clientName" placeholder="اكتب اسمك الثلاثي" class="w-full p-2.5 border rounded-xl text-sm bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-farm-500">
                 </div>
-                <div class="bg-white rounded-b-2xl p-5 shadow-sm custom-shadow border border-slate-100">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="grid-services">
-                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-lg bg-farm-100 text-farm-700 flex items-center justify-center font-bold">💊</div>
-                            <div>
-                                <h4 class="font-bold text-sm text-slate-800">أدوية بيطرية متكاملة</h4>
-                                <p class="text-xs text-slate-500">تحصينات، مضادات، ومكملات تحضين</p>
-                            </div>
-                        </div>
-                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center font-bold">🥣</div>
-                            <div>
-                                <h4 class="font-bold text-sm text-slate-800">سقايات وعلافات لجميع الأعمار</h4>
-                                <p class="text-xs text-slate-500">خامات عالية الجودة لجميع السعات</p>
-                            </div>
-                        </div>
-                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-bold">📋</div>
-                            <div>
-                                <h4 class="font-bold text-sm text-slate-800">تجهيز ومستلزمات مزارع ومكاتب</h4>
-                                <p class="text-xs text-slate-500">إشراف بيطري وتجهيز كامل للمنابر</p>
-                            </div>
-                        </div>
-                    </div>
+                <div>
+                    <label class="block text-xs font-bold mb-1">رقم التليفون:</label>
+                    <input type="tel" id="clientPhone" placeholder="رقم الموبايل للتواصل" class="w-full p-2.5 border rounded-xl text-sm bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-farm-500">
                 </div>
-            </section>
+            </div>
 
+            <div class="mb-4">
+                <label class="block text-xs font-bold mb-1">ملاحظات إضافية (اختياري):</label>
+                <textarea id="clientNotes" rows="2" placeholder="تفاصيل الطلب أو موعد الاستلام..." class="w-full p-2.5 border rounded-xl text-sm bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-farm-500"></textarea>
+            </div>
+
+            <button onclick="sendBookingToWhatsApp()" class="w-full bg-farm-600 hover:bg-farm-700 text-white font-bold py-3 rounded-xl shadow text-sm flex items-center justify-center gap-2">
+                <i class="fa-brands fa-whatsapp text-lg"></i> إرسال طلب الحجز للعيادة عبر الواتساب
+            </button>
         </div>
 
     </main>
 
-    <!-- Bottom Contact Bar (Sticky on Mobile) -->
-    <div class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-2xl py-3 px-4 z-40">
-        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-            <div class="hidden md:flex items-center gap-2 text-xs font-bold text-slate-600">
-                <i class="fa-solid fa-phone-volume text-farm-600 text-base"></i>
-                <span>للتواصل الحجز والاستفسارات الفورية:</span>
-    <!-- Modal: PIN Protection for Admin Mode -->
-    <div id="pin-modal" class="hidden fixed inset-0 bg-slate-900/70 backdrop-blur-md z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl relative border border-slate-100 text-center">
-            <div class="w-14 h-14 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center text-2xl mx-auto mb-3">
-                <i class="fa-solid fa-user-shield"></i>
+    <!-- Bottom Contact Bar -->
+    <footer class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-slate-200 py-3 px-4 z-40">
+        <div class="max-w-6xl mx-auto flex items-center justify-between gap-2">
+            <span class="text-xs font-bold text-slate-700 hidden sm:inline">للتواصل والحجز المباشر:</span>
+            <div class="flex items-center gap-2 w-full sm:w-auto justify-center">
+                <a href="tel:01019294380" class="bg-emerald-600 text-white px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1">
+                    <i class="fa-solid fa-phone"></i> 01019294380
+                </a>
+                <a href="tel:01515382820" class="bg-blue-600 text-white px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1">
+                    <i class="fa-solid fa-phone"></i> 01515382820
+                </a>
             </div>
-            <h3 class="text-lg font-bold text-slate-800 mb-1">دخول لوحة التحكم والتعديل</h3>
-            <p class="text-xs text-slate-500 mb-4">أدخل كلمة السر الخاصة بك لتتمكن من تعديل الأسعار (الرمز الافتراضي: <span class="font-bold text-farm-700">1234</span>)</p>
-            
-            <input type="password" id="admin-pin-input" maxlength="8" placeholder="••••" class="w-full text-center text-2xl tracking-widest font-bold py-3 border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-farm-500 mb-4">
-            
-            <div class="flex justify-center gap-2">
-                <button onclick="closePinModal()" class="w-1/2 py-2.5 rounded-xl text-slate-600 bg-slate-100 hover:bg-slate-200 font-bold text-xs transition">إلغاء</button>
-                <button onclick="verifyPin()" class="w-1/2 py-2.5 rounded-xl bg-farm-600 hover:bg-farm-700 text-white font-bold text-xs shadow transition">تأكيد الدخول</button>
+        </div>
+    </footer>
+
+    <!-- Modal: PIN Access -->
+    <div id="pin-modal" class="hidden fixed inset-0 bg-slate-900/70 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-center">
+            <h3 class="text-lg font-bold mb-2">دخول لوحة التحكم</h3>
+            <p class="text-xs text-slate-500 mb-4">أدخل كلمة السر لتفعيل وضع التعديل</p>
+            <input type="password" id="admin-pin-input" placeholder="••••" class="w-full text-center text-2xl tracking-widest font-bold py-3 border rounded-xl mb-4">
+            <div class="flex gap-2">
+                <button onclick="closePinModal()" class="w-1/2 py-2 bg-slate-100 text-xs font-bold rounded-xl">إلغاء</button>
+                <button onclick="verifyPin()" class="w-1/2 py-2 bg-farm-600 text-white text-xs font-bold rounded-xl">تأكيد</button>
             </div>
         </div>
     </div>
 
     <!-- Modal: Add Item -->
     <div id="add-item-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative border border-slate-100">
-            <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
-                <i class="fa-solid fa-plus-circle text-farm-600"></i> إضافة صنف جديد
-            </h3>
+        <div class="bg-white rounded-2xl max-w-md w-full p-6">
+            <h3 class="text-lg font-bold mb-4">إضافة صنف جديد</h3>
             <div class="space-y-3 text-xs">
                 <div>
-                    <label class="block font-bold text-slate-700 mb-1">القسم</label>
-                    <select id="modal-category" class="w-full p-2.5 border rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-farm-500">
+                    <label class="block font-bold mb-1">القسم</label>
+                    <select id="modal-category" class="w-full p-2.5 border rounded-xl">
                         <option value="chicks">كتاكيت</option>
                         <option value="ducks">بط</option>
                         <option value="turkey">رومي وسمان</option>
@@ -335,51 +286,45 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block font-bold text-slate-700 mb-1">اسم الصنف / البيان</label>
-                    <input type="text" id="modal-name" placeholder="مثال: ساسو درجة أولى" class="w-full p-2.5 border rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-farm-500">
+                    <label class="block font-bold mb-1">اسم الصنف</label>
+                    <input type="text" id="modal-name" placeholder="مثال: ساسو شيفر" class="w-full p-2.5 border rounded-xl">
                 </div>
                 <div>
-                    <label class="block font-bold text-slate-700 mb-1">السعر (ج.م) أو البيان</label>
-                    <input type="text" id="modal-price" placeholder="مثال: 25 أو حسب السوق" class="w-full p-2.5 border rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-farm-500">
+                    <label class="block font-bold mb-1">السعر (ج.م) أو البيان</label>
+                    <input type="text" id="modal-price" placeholder="مثال: 25" class="w-full p-2.5 border rounded-xl">
                 </div>
             </div>
-            <div class="mt-6 flex justify-end gap-2">
-                <button onclick="closeAddItemModal()" class="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100 font-bold text-xs">إلغاء</button>
-                <button onclick="saveNewItem()" class="px-5 py-2 rounded-xl bg-farm-600 hover:bg-farm-700 text-white font-bold text-xs shadow">حفظ الصنف</button>
+            <div class="mt-6 flex justify-end gap-2 text-xs font-bold">
+                <button onclick="closeAddItemModal()" class="px-4 py-2 text-slate-600">إلغاء</button>
+                <button onclick="saveNewItem()" class="px-5 py-2 bg-farm-600 text-white rounded-xl">حفظ</button>
             </div>
         </div>
     </div>
 
     <!-- Modal: Edit Date -->
     <div id="edit-date-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl relative border border-slate-100">
-            <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
-                <i class="fa-solid fa-calendar-pen text-farm-600"></i> تعديل تاريخ النشر
-            </h3>
-            <div class="space-y-3 text-xs">
-                <div>
-                    <label class="block font-bold text-slate-700 mb-1">التاريخ الجديد</label>
-                    <input type="text" id="modal-date-input" placeholder="مثال: السبت 2024-10-24" class="w-full p-2.5 border rounded-xl bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-farm-500">
-                </div>
-            </div>
-            <div class="mt-6 flex justify-end gap-2">
-                <button onclick="closeEditDateModal()" class="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100 font-bold text-xs">إلغاء</button>
-                <button onclick="saveDateChange()" class="px-5 py-2 rounded-xl bg-farm-600 hover:bg-farm-700 text-white font-bold text-xs shadow">تحديث التاريخ</button>
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6">
+            <h3 class="text-lg font-bold mb-4">تعديل تاريخ النشر</h3>
+            <input type="text" id="modal-date-input" class="w-full p-2.5 border rounded-xl text-xs mb-4">
+            <div class="flex justify-end gap-2 text-xs font-bold">
+                <button onclick="closeEditDateModal()" class="px-4 py-2 text-slate-600">إلغاء</button>
+                <button onclick="saveDateChange()" class="px-5 py-2 bg-farm-600 text-white rounded-xl">تحديث</button>
             </div>
         </div>
     </div>
 
-    <!-- Notification Toast -->
-    <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-xs font-bold px-5 py-3 rounded-2xl shadow-2xl z-50 transition-all duration-300 opacity-0 pointer-events-none flex items-center gap-2">
-        <i class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-xs font-bold px-5 py-3 rounded-2xl shadow-2xl z-50 transition-all duration-300 opacity-0 pointer-events-none">
         <span id="toast-message">تمت العملية بنجاح</span>
     </div>
 
-    <!-- JavaScript Logic -->
+    <!-- JS Code -->
     <script>
-        // Initial Price List State (Populated from doctor's provided sheet)
-        let priceData = {
-            publishDate: "السبت 2024-10-24",
+        const ADMIN_PIN = "1234";
+        let isAdmin = false;
+
+        let priceData = JSON.parse(localStorage.getItem('awadly_prices_v2')) || {
+            publishDate: "السبت 2026-10-24",
             chicks: [
                 { id: "c1", name: "أبيض شركات (تسمين)", price: "30" },
                 { id: "c2", name: "ساسو شيفر (درجة أولى)", price: "21" },
@@ -398,316 +343,4 @@
                 { id: "d5", name: "بغال (متحضن)", price: "78" },
                 { id: "d6", name: "مسكوفي (يوم)", price: "47" },
                 { id: "d7", name: "مسكوفي (ذكور يوم)", price: "غير متوفر" },
-                { id: "d8", name: "مسكوفي (متحضن)", price: "78" },
-                { id: "d9", name: "مسكوفي ذكر (متحضن)", price: "غير متوفر" },
-                { id: "d10", name: "مولار مستورد (بلنشارد)", price: "132" }
-            ],
-            turkey: [
-                { id: "t1", name: "سمان هجين (متحضن)", price: "17" },
-                { id: "t2", name: "وز أوروبي", price: "حسب الطلب" },
-                { id: "t3", name: "رومي أسمر (يوم)", price: "58" },
-                { id: "t4", name: "رومي أبيض (مهجن)", price: "245" },
-                { id: "t5", name: "رومي أسمر (كبير)", price: "145" }
-            ],
-            supplies: [
-                { id: "s1", name: "بيض دوبل", price: "175" },
-                { id: "s2", name: "ايكوشيلد (الشكارة)", price: "120" }
-            ],
-            companies: [
-                { id: "co1", name: "روس", detail: "الوادي" },
-                { id: "co2", name: "هبرد", detail: "الفيروز" },
-                { id: "co3", name: "أفيان", detail: "القصبي" },
-                { id: "co4", name: "أربو", detail: "القاهرة - عربية الشركة" },
-                { id: "co5", name: "كب", detail: "الوطنية - عربية الشركة" },
-                { id: "co6", name: "أفيان", detail: "الفيروز" }
-            ]
-        };
-
-        let isAdmin = false;
-        const ADMIN_PIN = "1234"; // Default PIN code for Dr. Mohamed
-
-        // Request Admin Access with PIN Prompt
-        function requestAdminAccess() {
-            if (isAdmin) {
-                // If already admin, lock/exit edit mode
-                isAdmin = false;
-                document.getElementById('admin-btn-text').innerText = "وضع التعديل (للإدارة)";
-                document.getElementById('admin-icon').className = "fa-solid fa-lock text-xs";
-                document.getElementById('admin-bar').classList.add('hidden');
-                renderData();
-                showToast("تم إغلاق وضع التعديل، العودة لوضع العرض فقط");
-            } else {
-                // Open PIN prompt modal
-                document.getElementById('admin-pin-input').value = '';
-                document.getElementById('pin-modal').classList.remove('hidden');
-                setTimeout(() => document.getElementById('admin-pin-input').focus(), 100);
-            }
-        }
-
-        function closePinModal() {
-            document.getElementById('pin-modal').classList.add('hidden');
-        }
-
-        function verifyPin() {
-            const enteredPin = document.getElementById('admin-pin-input').value.trim();
-            if (enteredPin === ADMIN_PIN) {
-                isAdmin = true;
-                closePinModal();
-                document.getElementById('admin-btn-text').innerText = "إنهاء التعديل (قفل)";
-                document.getElementById('admin-icon').className = "fa-solid fa-unlock text-xs";
-                document.getElementById('admin-bar').classList.remove('hidden');
-                renderData();
-                showToast("تم الدخول بنجاح! يمكنك الآن تعديل وإضافة الأسعار");
-            } else {
-                showToast("رمز السر غير صحيح! حاول مرة أخرى");
-                document.getElementById('admin-pin-input').value = '';
-                document.getElementById('admin-pin-input').focus();
-            }
-        }
-
-        // Generic Card Renderer
-        function renderCards(gridId, items) {
-            const container = document.getElementById(gridId);
-            container.innerHTML = '';
-
-            items.forEach(item => {
-                const isNumeric = !isNaN(parseFloat(item.price));
-                const priceFormatted = isNumeric ? `${item.price} <span class="text-[10px] font-normal">ج.م</span>` : item.price;
-                
-                const card = document.createElement('div');
-                card.className = "item-card bg-slate-50/80 hover:bg-slate-100/80 border border-slate-200/80 rounded-xl p-3 flex items-center justify-between transition-all duration-200 group";
-                
-                card.innerHTML = `
-                    <div class="flex items-center gap-2">
-                        ${isAdmin ? `<button onclick="deleteItem('${gridId}', '${item.id}')" class="text-rose-500 hover:text-rose-700 text-xs pl-1" title="حذف"><i class="fa-solid fa-trash-can"></i></button>` : ''}
-                        <span class="text-xs sm:text-sm font-bold text-slate-800">${item.name}</span>
-                    </div>
-                    <div class="flex items-center gap-1.5">
-                        <div class="price-badge text-white px-3 py-1 rounded-lg text-xs font-black shadow-sm ${!isNumeric ? 'bg-slate-600' : ''}">
-                            ${isAdmin ? `<input type="text" value="${item.price}" onchange="updateItemPrice('${gridId}', '${item.id}', this.value)" class="w-16 text-center bg-white/20 text-white rounded focus:outline-none focus:ring-2 focus:ring-amberGold-400 font-bold">` : priceFormatted}
-                        </div>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        // Companies Renderer
-        function renderCompanies(gridId, companies) {
-            const container = document.getElementById(gridId);
-            container.innerHTML = '';
-
-            companies.forEach(company => {
-                const card = document.createElement('div');
-                card.className = "item-card bg-gradient-to-l from-purple-50/60 to-slate-50 border border-purple-100/80 rounded-xl p-3 flex items-center justify-between transition";
-                
-                card.innerHTML = `
-                    <div class="flex items-center gap-2">
-                        ${isAdmin ? `<button onclick="deleteCompany('${company.id}')" class="text-rose-500 text-xs pl-1"><i class="fa-solid fa-trash-can"></i></button>` : ''}
-                        <div>
-                            <div class="text-sm font-bold text-slate-800">${company.name}</div>
-                            <div class="text-[11px] text-purple-700 font-semibold">${company.detail}</div>
-                        </div>
-                    </div>
-                    <span class="text-[10px] bg-purple-100 text-purple-800 font-bold px-2 py-0.5 rounded-md">متاح اليوم</span>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        // Search & Filtering
-        function filterItems() {
-            const query = document.getElementById('search-input').value.toLowerCase().trim();
-            const cards = document.querySelectorAll('.item-card');
-
-            cards.forEach(card => {
-                const text = card.innerText.toLowerCase();
-                if (text.includes(query)) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
-
-        function filterCategory(category) {
-            // Update active button state
-            document.querySelectorAll('.cat-filter-btn').forEach(btn => {
-                if (btn.getAttribute('data-cat') === category) {
-                    btn.className = "cat-filter-btn px-3.5 py-2 rounded-xl bg-farm-700 text-white shadow-sm shrink-0 transition";
-                } else {
-                    btn.className = "cat-filter-btn px-3.5 py-2 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 shrink-0 transition";
-                }
-            });
-
-            // Show/Hide category blocks
-            const blocks = document.querySelectorAll('.category-block');
-            blocks.forEach(block => {
-                if (category === 'all' || block.getAttribute('data-category') === category) {
-                    block.style.display = 'block';
-                } else {
-                    block.style.display = 'none';
-                }
-            });
-        }
-
-        // Toggle Admin Editing Mode
-        function toggleAdminMode() {
-            isAdmin = !isAdmin;
-            const btnText = document.getElementById('admin-btn-text');
-            const icon = document.getElementById('admin-icon');
-            const adminBar = document.getElementById('admin-bar');
-
-            if (isAdmin) {
-                btnText.innerText = "إنهاء التعديل";
-                icon.className = "fa-solid fa-unlock text-xs";
-                adminBar.classList.remove('hidden');
-                showToast("تم تفعيل وضع التعديل!");
-            } else {
-                btnText.innerText = "وضع التعديل (للإدارة)";
-                icon.className = "fa-solid fa-lock text-xs";
-                adminBar.classList.add('hidden');
-                showToast("تم تعطيل وضع التعديل وقفل التغييرات");
-            }
-            renderData();
-        }
-
-        // Admin Functionalities: Update / Delete / Add
-        function updateItemPrice(gridId, itemId, newPrice) {
-            let cat = gridId.replace('grid-', '');
-            if (priceData[cat]) {
-                const item = priceData[cat].find(i => i.id === itemId);
-                if (item) {
-                    item.price = newPrice;
-                    showToast(`تم تحديث سعر ${item.name}`);
-                }
-            }
-        }
-
-        function deleteItem(gridId, itemId) {
-            let cat = gridId.replace('grid-', '');
-            if (priceData[cat]) {
-                priceData[cat] = priceData[cat].filter(i => i.id !== itemId);
-                renderData();
-                showToast("تم حذف الصنف بنجاح");
-            }
-        }
-
-        function deleteCompany(companyId) {
-            priceData.companies = priceData.companies.filter(c => c.id !== companyId);
-            renderData();
-            showToast("تم حذف الشركة بنجاح");
-        }
-
-        // Modals Logic
-        function openAddItemModal() {
-            document.getElementById('add-item-modal').classList.remove('hidden');
-        }
-
-        function closeAddItemModal() {
-            document.getElementById('add-item-modal').classList.add('hidden');
-        }
-
-        function saveNewItem() {
-            const cat = document.getElementById('modal-category').value;
-            const name = document.getElementById('modal-name').value.trim();
-            const price = document.getElementById('modal-price').value.trim();
-
-            if (!name || !price) {
-                showToast("يرجى ملء جميع الحقول المطلوب إضافتها");
-                return;
-            }
-
-            if (cat === 'companies') {
-                priceData.companies.push({
-                    id: 'co' + Date.now(),
-                    name: name,
-                    detail: price
-                });
-            } else if (priceData[cat]) {
-                priceData[cat].push({
-                    id: 'item' + Date.now(),
-                    name: name,
-                    price: price
-                });
-            }
-
-            renderData();
-            closeAddItemModal();
-            showToast("تمت إضافة الصنف بنجاح!");
-
-            // Clear inputs
-            document.getElementById('modal-name').value = '';
-            document.getElementById('modal-price').value = '';
-        }
-
-        function openEditDateModal() {
-            document.getElementById('modal-date-input').value = priceData.publishDate;
-            document.getElementById('edit-date-modal').classList.remove('hidden');
-        }
-
-        function closeEditDateModal() {
-            document.getElementById('edit-date-modal').classList.add('hidden');
-        }
-
-        function saveDateChange() {
-            const newDate = document.getElementById('modal-date-input').value.trim();
-            if (newDate) {
-                priceData.publishDate = newDate;
-                renderData();
-                closeEditDateModal();
-                showToast("تم تغيير تاريخ الإصدار");
-            }
-        }
-
-        // Export/Copy Formatted Text for WhatsApp / Facebook
-        function copyFormattedList() {
-            let text = `📋 *بيان أسعار الكتاكيت والبط والرومي والمستلزمات*\n`;
-            text += `📍 *عيادة د. محمد السيد العوادلي البيطرية*\n`;
-            text += `📅 *تاريخ الإصدار:* ${priceData.publishDate}\n\n`;
-
-            text += `🐤 *1. كتاكيت التسمين والبلدي والبيض:*\n`;
-            priceData.chicks.forEach(item => text += `* ${item.name}: [ ${item.price} ] ج.م\n`);
-
-            text += `\n🦆 *2. البط بأنواعه:*\n`;
-            priceData.ducks.forEach(item => text += `* ${item.name}: [ ${item.price} ] ج.م\n`);
-
-            text += `\n🦃 *3. الرومي والسمان والطيور الأخرى:*\n`;
-            priceData.turkey.forEach(item => text += `* ${item.name}: [ ${item.price} ] ج.م\n`);
-
-            text += `\n🥚 *4. البيض والمستلزمات البيطرية:*\n`;
-            priceData.supplies.forEach(item => text += `* ${item.name}: [ ${item.price} ] ج.م\n`);
-
-            text += `\n🔬 *الشركات المتاحة للأبيض اليوم:*\n`;
-            priceData.companies.forEach(item => text += `* ${item.name} (${item.detail})\n`);
-
-            text += `\n📞 *للتواصل والحجز:*\n01019294380 | 01515382820\n📍 دنجواي - أول طريق الشط - بجوار عيادة الدكتور محمد عبدالسلام`;
-
-            // Copy to clipboard
-            const tempInput = document.createElement('textarea');
-            tempInput.value = text;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempInput);
-
-            showToast("تم نسخ القائمة كاملة! جاهزة للسرعة واللصق على الواتساب والفيسبوك");
-        }
-
-        // Toast Helper
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toast-message').innerText = message;
-            toast.classList.remove('opacity-0', 'pointer-events-none');
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'pointer-events-none');
-            }, 3000);
-        }
-
-        // Initialize App on load
-        window.onload = function() {
-            renderData();
-        };
-    </script>
-</body>
-</html>
+                { id: "d8",
