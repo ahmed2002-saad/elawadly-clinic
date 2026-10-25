@@ -141,12 +141,15 @@
                     <i class="fa-solid fa-user-gear text-amber-600"></i>
                     <span>وضع التعديل مفعّل: يمكنك إضافة أصناف، تغيير الأسعار، أو تعديل التاريخ.</span>
                 </div>
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2 flex-wrap justify-center">
                     <button onclick="openAddItemModal()" class="bg-farm-600 hover:bg-farm-700 text-white text-xs font-bold px-3 py-2 rounded-xl flex items-center gap-1">
                         <i class="fa-solid fa-plus"></i> إضافة صنف جديد
                     </button>
                     <button onclick="openEditDateModal()" class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold px-3 py-2 rounded-xl flex items-center gap-1">
                         <i class="fa-solid fa-pen"></i> تغيير التاريخ
+                    </button>
+                    <button onclick="openChangePinModal()" class="bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold px-3 py-2 rounded-xl flex items-center gap-1">
+                        <i class="fa-solid fa-key"></i> تغيير كلمة السر
                     </button>
                 </div>
             </div>
@@ -263,6 +266,19 @@
         </div>
     </div>
 
+    <!-- Modal: Change Admin PIN -->
+    <div id="change-pin-modal" class="hidden fixed inset-0 bg-slate-900/70 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-center">
+            <h3 class="text-lg font-bold mb-2">تغيير كلمة السر للأدمن</h3>
+            <p class="text-xs text-slate-500 mb-4">أدخل كلمة السر الجديدة التي ترغب باستعمالها:</p>
+            <input type="password" id="new-pin-input" placeholder="أدخل كلمة السر الجديدة" class="w-full text-center text-lg font-bold py-3 border rounded-xl mb-4">
+            <div class="flex gap-2">
+                <button onclick="closeChangePinModal()" class="w-1/2 py-2 bg-slate-100 text-xs font-bold rounded-xl">إلغاء</button>
+                <button onclick="saveNewPin()" class="w-1/2 py-2 bg-amber-600 text-white text-xs font-bold rounded-xl">حفظ كلمة السر</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal: Add Item -->
     <div id="add-item-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-6">
@@ -313,7 +329,7 @@
 
     <!-- JS Code -->
     <script>
-        const ADMIN_PIN = "1234";
+        let currentAdminPin = localStorage.getItem('awadly_admin_pin') || "1234";
         let isAdmin = false;
 
         let priceData;
@@ -428,7 +444,7 @@
         function verifyPin() {
             const pinInput = document.getElementById('admin-pin-input');
             const pin = pinInput ? pinInput.value.trim() : "";
-            if (pin === ADMIN_PIN) {
+            if (pin === currentAdminPin) {
                 isAdmin = true;
                 closePinModal();
                 const adminBar = document.getElementById('admin-bar');
@@ -439,6 +455,30 @@
                 showToast("تم الدخول بنجاح!");
             } else {
                 showToast("كلمة السر خاطئة!");
+            }
+        }
+
+        function openChangePinModal() {
+            const modal = document.getElementById('change-pin-modal');
+            if(modal) modal.classList.remove('hidden');
+        }
+
+        function closeChangePinModal() {
+            const modal = document.getElementById('change-pin-modal');
+            if(modal) modal.classList.add('hidden');
+        }
+
+        function saveNewPin() {
+            const input = document.getElementById('new-pin-input');
+            const newPin = input ? input.value.trim() : "";
+            if (newPin !== "") {
+                currentAdminPin = newPin;
+                localStorage.setItem('awadly_admin_pin', currentAdminPin);
+                closeChangePinModal();
+                if(input) input.value = '';
+                showToast("تم تغيير كلمة السر بنجاح!");
+            } else {
+                alert("يرجى كتابة كلمة السر الجديدة!");
             }
         }
 
@@ -592,7 +632,6 @@
             }
         }
 
-        // تشغيل عرض البيانات فور تحميل الصفحة بسلام
         document.addEventListener('DOMContentLoaded', () => {
             renderData();
         });
