@@ -329,7 +329,7 @@
 
     <!-- JS Code -->
     <script>
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw5b-jtsWWV8zOCnIZVxflayAfDLeiF_omDztWH5skqMBrFn0uR4NW_tEA8jQsgnSO3LA/exec";
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwuhH780r4kPLvAYQRYrTQEZ7bOoCMCIraFtyIzACpG5QDLfPtP2X2d2eLGFxsM1K0Msw/exec";
 
         let isAdmin = false;
 
@@ -381,7 +381,7 @@
         let priceData = defaultData;
 
         async function loadDataFromCloud() {
-            showToast("جاري جلب أحدث البيانات من شيت جوجل...");
+            showToast("جاري جلب أحدث البيانات من الشيت...");
             try {
                 let res = await fetch(GOOGLE_SCRIPT_URL);
                 let textData = await res.text();
@@ -406,7 +406,6 @@
                 await fetch(GOOGLE_SCRIPT_URL, {
                     method: "POST",
                     mode: "no-cors",
-                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(priceData)
                 });
                 showToast("تم الحفظ في الشيت وتحديث الموقع بنجاح! 🎉");
@@ -471,7 +470,6 @@
             if(pinModal) pinModal.classList.add('hidden'); 
         }
 
-        // تحقق من كلمة السر المطابقة لما هو مخزن في جوجل شيت
         function verifyPin() {
             const pinInput = document.getElementById('admin-pin-input');
             const enteredPin = pinInput ? pinInput.value.trim() : "";
@@ -502,7 +500,6 @@
             if(modal) modal.classList.add('hidden');
         }
 
-        // تغيير كلمة السر وحفظها مباشرة في شيت جوجل للجميع
         function saveNewPin() {
             const input = document.getElementById('new-pin-input');
             const newPin = input ? input.value.trim() : "";
