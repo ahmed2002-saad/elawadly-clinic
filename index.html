@@ -148,7 +148,6 @@
                     <button onclick="openEditDateModal()" class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold px-3 py-2 rounded-xl flex items-center gap-1">
                         <i class="fa-solid fa-pen"></i> تغيير التاريخ
                     </button>
-                    <!-- زر تغيير كلمة السر الواضح -->
                     <button onclick="openChangePinModal()" class="bg-orange-600 hover:bg-orange-700 text-white text-xs font-bold px-3 py-2 rounded-xl flex items-center gap-1 shadow">
                         <i class="fa-solid fa-key"></i> تغيير كلمة السر
                     </button>
@@ -330,60 +329,86 @@
 
     <!-- JS Code -->
     <script>
-        let currentAdminPin = localStorage.getItem('awadly_admin_pin') || "1234";
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwbAPeiF8UB4ZN1c9r1qzl_vYWT9t9scX0i0kfTlf8E9Lw-smJuFZf7KG4oLTDlD_-APg/exec";
+
+        let currentAdminPin = "1234";
         let isAdmin = false;
 
-        let priceData;
-        try {
-            priceData = JSON.parse(localStorage.getItem('awadly_prices_v3'));
-        } catch (e) {
-            priceData = null;
+        let defaultData = {
+            adminPin: "1234",
+            publishDate: "السبت 2026-10-24",
+            chicks: [
+                { id: "c1", name: "أبيض شركات (تسمين)", price: "30" },
+                { id: "c2", name: "ساسو شيفر (درجة أولى)", price: "21" },
+                { id: "c3", name: "جميزة (لحم)", price: "25" },
+                { id: "c4", name: "هجين عالي (لحم)", price: "20" },
+                { id: "c5", name: "بلدي هجين", price: "12" },
+                { id: "c6", name: "فيومي (برابر)", price: "14" },
+                { id: "c7", name: "فيومي (وشة)", price: "17" },
+                { id: "c8", name: "رزي (ديوك)", price: "21" }
+            ],
+            ducks: [
+                { id: "d1", name: "فرنساوي (يوم)", price: "39" },
+                { id: "d2", name: "بيور ستار (يوم)", price: "43" },
+                { id: "d3", name: "بيور ستار (متحضن)", price: "66" },
+                { id: "d4", name: "بغال (يوم)", price: "52" },
+                { id: "d5", name: "بغال (متحضن)", price: "78" },
+                { id: "d6", name: "مسكوفي (يوم)", price: "47" },
+                { id: "d7", name: "مسكوفي (ذكور يوم)", price: "غير متوفر" },
+                { id: "d8", name: "مسكوفي (متحضن)", price: "78" },
+                { id: "d9", name: "مسكوفي ذكر (متحضن)", price: "غير متوفر" },
+                { id: "d10", name: "مولار مستورد (بلنشارد)", price: "132" }
+            ],
+            turkey: [
+                { id: "t1", name: "سمان هجين (متحضن)", price: "17" },
+                { id: "t2", name: "وز أوروبي", price: "حسب الطلب" },
+                { id: "t3", name: "رومي أسمر (يوم)", price: "58" },
+                { id: "t4", name: "رومي أبيض (مهجن)", price: "245" },
+                { id: "t5", name: "رومي أسمر (كبير)", price: "145" }
+            ],
+            supplies: [
+                { id: "s1", name: "بيض دوبل", price: "175" },
+                { id: "s2", name: "ايكوشيلد (الشكارة)", price: "120" }
+            ],
+            companies: [
+                { id: "co1", name: "روس (الوادي)", price: "متاح" },
+                { id: "co2", name: "هبرد (الفيروز)", price: "متاح" },
+                { id: "co3", name: "أفيان (القصبي)", price: "متاح" },
+                { id: "co4", name: "أربو (القاهرة)", price: "متاح" },
+                { id: "co5", name: "كب (الوطنية)", price: "متاح" }
+            ]
+        };
+
+        let priceData = defaultData;
+
+        async function loadDataFromCloud() {
+            showToast("جاري تحميل أحدث الأسعار...");
+            try {
+                let res = await fetch(GOOGLE_SCRIPT_URL);
+                let data = await res.json();
+                if(data && data.publishData) {
+                    priceData = data;
+                    if(data.adminPin) currentAdminPin = data.adminPin;
+                }
+            } catch(e) {
+                console.log("استخدام البيانات الافتراضية");
+            }
+            renderData();
         }
 
-        if (!priceData) {
-            priceData = {
-                publishDate: "السبت 2026-10-24",
-                chicks: [
-                    { id: "c1", name: "أبيض شركات (تسمين)", price: "30" },
-                    { id: "c2", name: "ساسو شيفر (درجة أولى)", price: "21" },
-                    { id: "c3", name: "جميزة (لحم)", price: "25" },
-                    { id: "c4", name: "هجين عالي (لحم)", price: "20" },
-                    { id: "c5", name: "بلدي هجين", price: "12" },
-                    { id: "c6", name: "فيومي (برابر)", price: "14" },
-                    { id: "c7", name: "فيومي (وشة)", price: "17" },
-                    { id: "c8", name: "رزي (ديوك)", price: "21" }
-                ],
-                ducks: [
-                    { id: "d1", name: "فرنساوي (يوم)", price: "39" },
-                    { id: "d2", name: "بيور ستار (يوم)", price: "43" },
-                    { id: "d3", name: "بيور ستار (متحضن)", price: "66" },
-                    { id: "d4", name: "بغال (يوم)", price: "52" },
-                    { id: "d5", name: "بغال (متحضن)", price: "78" },
-                    { id: "d6", name: "مسكوفي (يوم)", price: "47" },
-                    { id: "d7", name: "مسكوفي (ذكور يوم)", price: "غير متوفر" },
-                    { id: "d8", name: "مسكوفي (متحضن)", price: "78" },
-                    { id: "d9", name: "مسكوفي ذكر (متحضن)", price: "غير متوفر" },
-                    { id: "d10", name: "مولار مستورد (بلنشارد)", price: "132" }
-                ],
-                turkey: [
-                    { id: "t1", name: "سمان هجين (متحضن)", price: "17" },
-                    { id: "t2", name: "وز أوروبي", price: "حسب الطلب" },
-                    { id: "t3", name: "رومي أسمر (يوم)", price: "58" },
-                    { id: "t4", name: "رومي أبيض (مهجن)", price: "245" },
-                    { id: "t5", name: "رومي أسمر (كبير)", price: "145" }
-                ],
-                supplies: [
-                    { id: "s1", name: "بيض دوبل", price: "175" },
-                    { id: "s2", name: "ايكوشيلد (الشكارة)", price: "120" }
-                ],
-                companies: [
-                    { id: "co1", name: "روس (الوادي)", price: "متاح" },
-                    { id: "co2", name: "هبرد (الفيروز)", price: "متاح" },
-                    { id: "co3", name: "أفيان (القصبي)", price: "متاح" },
-                    { id: "co4", name: "أربو (القاهرة)", price: "متاح" },
-                    { id: "co5", name: "كب (الوطنية)", price: "متاح" }
-                ]
-            };
+        async function saveDataToCloud() {
+            showToast("جاري حفظ التعديلات للجميع...");
+            try {
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(priceData)
+                });
+                showToast("تم حفظ وتحديث الأسعار للجميع بنجاح! 🎉");
+            } catch(e) {
+                showToast("حدث خطأ أثناء الحفظ على السيرفر");
+            }
         }
 
         function renderData() {
@@ -474,10 +499,10 @@
             const newPin = input ? input.value.trim() : "";
             if (newPin !== "") {
                 currentAdminPin = newPin;
-                localStorage.setItem('awadly_admin_pin', currentAdminPin);
+                priceData.adminPin = currentAdminPin;
+                saveDataToCloud();
                 closeChangePinModal();
                 if(input) input.value = '';
-                showToast("تم تغيير كلمة السر بنجاح!");
             } else {
                 alert("يرجى كتابة كلمة السر الجديدة!");
             }
@@ -487,22 +512,14 @@
             const item = priceData[secId].find(i => i.id === itemId);
             if (item) {
                 item.price = newPrice;
-                saveToStorage();
-                showToast("تم حفظ السعر الجديد");
+                saveDataToCloud();
             }
         }
 
         function deleteItem(secId, itemId) {
             priceData[secId] = priceData[secId].filter(i => i.id !== itemId);
-            saveToStorage();
+            saveDataToCloud();
             renderData();
-            showToast("تم الحذف بنجاح");
-        }
-
-        function saveToStorage() {
-            try {
-                localStorage.setItem('awadly_prices_v3', JSON.stringify(priceData));
-            } catch (e) {}
         }
 
         function openAddItemModal() { 
@@ -526,10 +543,9 @@
             if (name && price) {
                 if(!priceData[cat]) priceData[cat] = [];
                 priceData[cat].push({ id: 'item_' + Date.now(), name: name, price: price });
-                saveToStorage();
+                saveDataToCloud();
                 renderData();
                 closeAddItemModal();
-                showToast("تمت الإضافة بنجاح");
                 if(nameEl) nameEl.value = '';
                 if(priceEl) priceEl.value = '';
             } else {
@@ -553,10 +569,9 @@
             const d = dInput ? dInput.value.trim() : '';
             if (d) {
                 priceData.publishDate = d;
-                saveToStorage();
+                saveDataToCloud();
                 renderData();
                 closeEditDateModal();
-                showToast("تم تغيير التاريخ");
             }
         }
 
@@ -634,7 +649,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            renderData();
+            loadDataFromCloud();
         });
     </script>
 </body>
